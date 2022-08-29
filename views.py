@@ -1,5 +1,5 @@
 
-# I have created this file - Harry
+# KRISH SONI
 from django.http import HttpResponse
 from django.shortcuts import render
 
