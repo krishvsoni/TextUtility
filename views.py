@@ -18,6 +18,7 @@ def analyze(request):
     extraspaceremover = request.POST.get('extraspaceremover', 'off')
     charcount = request.POST.get('charcount', 'off')
     wordcount = request.POST.get('wordcount', 'off')
+    numberremover = request.POST.get('numberremover', 'off')
 
     #Check which checkbox is on
     if removepunc == "on":
@@ -55,6 +56,17 @@ def analyze(request):
 
         params = {'purpose': 'Removed NewLines', 'analyzed_text': analyzed}
 
+    if (numberremover == "on"):
+        analyzed = ""
+        numbers = '0,1,2,3,4,5,6,7,8,9'
+
+        for char in djtext:
+            if char not in numbers:
+                analyzed = analyzed + char
+
+        params = {'purpose': 'Removed Numbers', 'analyzed_text': analyzed}
+        djtext = analyzed
+
     if (charcount == "on"):
         analyzed = len(djtext)
 
@@ -75,7 +87,7 @@ def analyze(request):
 
 
 
-    if(removepunc != "on" and newlineremover!="on" and extraspaceremover!="on" and fullcaps!="on" and charcount!="on" and wordcount!="on"):
-        return HttpResponse("<p><h1><b><u> ERROR 404 👻 </u></b></1></p> <b> Please select any operation and try again</b>")
+    if(removepunc != "on" and newlineremover!="on" and numberremover!="on" and extraspaceremover!="on" and fullcaps!="on" and charcount!="on" and wordcount!="on"):
+        return render(request,'error404.html')
 
     return render(request, 'analyze.html', params)
