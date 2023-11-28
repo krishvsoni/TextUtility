@@ -1,12 +1,12 @@
 # KRISH SONI
 from django.http import HttpResponse
 from django.shortcuts import render
-
+from django.views.decorators.csrf import csrf_protect
 
 def index(request):
     return render(request, 'index.html')
 
-
+@csrf_protect
 def analyze(request):
     #Get the text
     djtext = request.POST.get('text', 'default')
